@@ -92,7 +92,7 @@ class Surt(object):
         for domain_part in self.domain_parts:
             self.parts.append('{},'.format(domain_part))
         if self.domain_parts:
-            # skip , before ) EXCEPT for rules themselves we need...
+            # skip , before ) EXCEPT for rules themselves that need to apply to all subdomains?
             self.parts[-1] = self.parts[-1][:-1]
         if self.closing_paren:
             self.parts.append(')')

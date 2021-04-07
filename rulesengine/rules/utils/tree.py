@@ -38,6 +38,7 @@ def tree(surt, enabled_only=True, include_retrieval_dates=True,
     [1] Not currently used, but may be in the future.
     """
     surt_parts = surt.parts
+    #breakpoint()
     tree_surts = []
     while surt_parts != []:
         part = ''.join(surt_parts)
@@ -67,5 +68,5 @@ def tree(surt, enabled_only=True, include_retrieval_dates=True,
             ) & (
             Q(capture_date_start__isnull=True) |
             Q(capture_date_start__lt=capture_date)))
-    # breakpoint()
+    #breakpoint()
     return Rule.objects.filter(filters)
