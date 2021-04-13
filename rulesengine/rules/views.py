@@ -138,8 +138,13 @@ def rules_q(surt, enabled_only=True, include_retrieval_dates=True,
 
     from django.db.models import Q
 
-    # todo? validate surt?
-    rqr = Rule.objects.raw('SELECT * FROM rules_rule WHERE %s GLOB surt', [ surt ])
+    rqr = None
+    if collection:
+        rqr = Rule.objects.raw('SELECT * FROM rules_rule WHERE %s GLOB surt and collection = %s', [ surt, collection ])
+    elif partner:
+        rqr = Rule.objects.raw('SELECT * FROM rules_rule WHERE %s GLOB surt and partner = %s', [ surt, partner ])
+    else:
+        rqr = Rule.objects.raw('SELECT * FROM rules_rule WHERE %s GLOB surt', [ surt ])
     now = datetime.now(timezone.utc)
     filters = Q()
     if enabled_only:
@@ -164,4 +169,5 @@ def rules_q(surt, enabled_only=True, include_retrieval_dates=True,
             ) & (
             Q(capture_date_start__isnull=True) |
             Q(capture_date_start__lt=capture_date)))
-    return rqr.filter(filters)
+    #return rqr.filter(filters)
+    return rqr
